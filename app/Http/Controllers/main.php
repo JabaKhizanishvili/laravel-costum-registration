@@ -94,4 +94,11 @@ class main extends Controller
             "user_id" => $request->session()->get('loggedUser'),
         ]);
     }
+    public function delImg(Request $request, Img $img)
+    {
+        // dd($request->input('id'));
+        // $img->remove($request->file('avatar'));
+        $res = $img->where('id', $request->input('id'))->delete();
+        return back();
+    }
 }

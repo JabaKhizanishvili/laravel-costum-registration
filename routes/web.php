@@ -21,3 +21,4 @@ Route::post('/loginuser', [Main::class, 'loginuser'])->name('loginuser');
 Route::get('/page', [Main::class, 'page'])->name('page');
 Route::get('/logout', [Main::class, 'logout'])->name('logout');
 Route::post('/img', [Main::class, 'img'])->name('img');
+Route::get('/delImg', [Main::class, 'delImg'])->name('del');
