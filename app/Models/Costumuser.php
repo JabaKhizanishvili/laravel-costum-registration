@@ -13,4 +13,8 @@ class Costumuser extends Model
         'email',
         'password',
     ];
+    public function getImg()
+    {
+        return $this->hasMany('App\Models\Img', 'user_id');
+    }
 }

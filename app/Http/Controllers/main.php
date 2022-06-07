@@ -7,15 +7,18 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Models\Costumuser;
+use App\Models\Img;
 use Illuminate\Support\Facades\Hash;
 
 class main extends Controller
 {
     //
-    public function index(Request $request)
+    public function index(Request $request, Img $img)
     {
         return Inertia::render('Home', [
-            'success' => $request->session()->get('success')
+            "images" => $img->all(),
+            'success' => $request->session()->get('success'),
+            "links" => asset('storage/images'),
         ]);
     }
 
@@ -58,11 +61,15 @@ class main extends Controller
             return 'cudia';
         }
     }
-    public function page(Request $request)
+    public function page(Request $request, Img $img)
     {
+        $user_id = $request->session()->get('loggedUser');
+        // return Costumuser::find($user_id)->getImg;
         $id = $request->session()->get('loggedUser');
         $user = Costumuser::where('id', $id)->first();
         return Inertia::render('UserPage', [
+            "images" => Costumuser::find($user_id)->getImg,
+            "links" => asset('storage/images'),
             "id" => $request->session()->get('loggedUser'),
             'email' => $user->email,
         ]);
@@ -73,5 +80,18 @@ class main extends Controller
     {
         $request->session()->remove('loggedUser');
         return redirect('login');
+    }
+
+    public function img(Request $request, Img $img)
+    {
+        $name = $request->file('avatar')->getClientOriginalName();
+        $size = $request->file('avatar')->getSize();
+        // dd($request->file('avatar'));
+        $request->file('avatar')->storeAs('public/images/', $name);
+        $img->create([
+            "name" => $name,
+            "size" => $size,
+            "user_id" => $request->session()->get('loggedUser'),
+        ]);
     }
 }
