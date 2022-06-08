@@ -9,6 +9,9 @@ use Illuminate\Support\Arr;
 use App\Models\Costumuser;
 use App\Models\Img;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPassword;
+use League\CommonMark\Extension\SmartPunct\EllipsesParser;
 
 class main extends Controller
 {
@@ -100,5 +103,42 @@ class main extends Controller
         // $img->remove($request->file('avatar'));
         $res = $img->where('id', $request->input('id'))->delete();
         return back();
+    }
+
+    // reset password
+    public function forgetPass(Request $request)
+    {
+        return Inertia::render('Reset', [
+            "error" => $request->session()->get('error'),
+            "success" => $request->session()->get('success'),
+        ]);
+    }
+    public function send(Request $request, Costumuser $user)
+    {
+        $userId = $user->where('email', $request->email)->first();
+        if ($userId) {
+            $testId = $userId->id;
+            // dd($testId);
+            $mail = Mail::to('xizanishvili.99@gmail.com')->send(new ForgotPassword($testId));
+            if ($mail) return back()->with('success', 'gaigzavna');
+        } else {
+            return back()->with('error', 'wrong mail');
+        }
+    }
+
+    public function resetpass(Request $request)
+    {
+        return Inertia::render('ChangePass', [
+            'id' => $request->input('id'),
+        ]);
+    }
+
+    public function resetpassword(Request $request, Costumuser $user)
+    {
+        // dd($request->new_password, $request->id);
+
+        $changed = $user->where('id', $request->id);
+        $newPass = Hash::make($request->new_password);
+        $changed->update(["password" => $newPass]);
     }
 }

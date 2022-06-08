@@ -34,6 +34,8 @@ export default function Login({ success }) {
                 <input className="form-control" type="password" value={data.password} onChange={e => setData('password', e.target.value)} required placeholder="Password" />
                 {errors.password && <div className='alert alert-danger'>{errors.password}</div>}
                 <button className="btn btn-primary" type="submit" disabled={processing}>Login</button>
+                <p>Forgot Password?</p>
+                <a href='/reset' className="btn btn-info">reset password</a>
             </form>
 
         </React.Fragment>

@@ -38,6 +38,8 @@ export default function Home({ success }) {
                 {errors.password && <div className='alert alert-danger'>{errors.password}</div>}
                 <button className="btn btn-primary" type="submit" disabled={processing}>register</button>
             </form>
+            <h2>If already have account</h2>
+            <a href="/login" className="btn btn-primary">LogIn</a>
 
         </React.Fragment>
 

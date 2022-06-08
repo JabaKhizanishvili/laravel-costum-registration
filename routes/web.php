@@ -22,3 +22,7 @@ Route::get('/page', [Main::class, 'page'])->name('page');
 Route::get('/logout', [Main::class, 'logout'])->name('logout');
 Route::post('/img', [Main::class, 'img'])->name('img');
 Route::get('/delImg', [Main::class, 'delImg'])->name('del');
+Route::get('/reset', [Main::class, 'forgetPass']);
+Route::post('/resetsend', [Main::class, 'send']);
+Route::get('/changePass', [Main::class, 'resetpass'])->name('resetpass');
+Route::post('/resetpassword', [Main::class, 'resetpassword'])->name('resetpassword');

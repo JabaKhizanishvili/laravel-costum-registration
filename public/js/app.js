@@ -7434,6 +7434,73 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Pages/ChangePass.js":
+/*!******************************************!*\
+  !*** ./resources/js/Pages/ChangePass.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ChangePass)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+function ChangePass(_ref) {
+  var id = _ref.id;
+
+  var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.useForm)({
+    new_password: '',
+    id: id
+  }),
+      data = _useForm.data,
+      setData = _useForm.setData,
+      post = _useForm.post,
+      processing = _useForm.processing,
+      errors = _useForm.errors;
+
+  function submit(e) {
+    e.preventDefault();
+    post('/resetpassword');
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+      onSubmit: submit,
+      className: "container w-25 shadow p-3 mb-5 bg-body rounded mt-5",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
+        children: "Reset Password"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+        children: "enter new password"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+        className: "form-control",
+        type: "text",
+        value: data.new_password,
+        onChange: function onChange(e) {
+          return setData('new_password', e.target.value);
+        },
+        required: true,
+        placeholder: "new_password"
+      }), errors.new_password && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: errors.new_password
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        className: "btn btn-primary",
+        type: "submit",
+        disabled: processing,
+        children: "reset"
+      })]
+    })
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Home.js":
 /*!************************************!*\
   !*** ./resources/js/Pages/Home.js ***!
@@ -7536,6 +7603,12 @@ function Home(_ref) {
         disabled: processing,
         children: "register"
       })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+      children: "If already have account"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      href: "/login",
+      className: "btn btn-primary",
+      children: "LogIn"
     })]
   });
 }
@@ -7629,6 +7702,96 @@ function Login(_ref) {
         type: "submit",
         disabled: processing,
         children: "Login"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        children: "Forgot Password?"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        href: "/reset",
+        className: "btn btn-info",
+        children: "reset password"
+      })]
+    })
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Reset.js":
+/*!*************************************!*\
+  !*** ./resources/js/Pages/Reset.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Reset)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+function Reset(_ref) {
+  var error = _ref.error,
+      success = _ref.success;
+
+  var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.useForm)({
+    email: ''
+  }),
+      data = _useForm.data,
+      setData = _useForm.setData,
+      post = _useForm.post,
+      processing = _useForm.processing,
+      errors = _useForm.errors;
+
+  var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+
+  function submit(e) {
+    e.preventDefault();
+    post('/resetsend');
+  }
+
+  if (success) {
+    Swal.fire({
+      title: 'success',
+      text: 'გაიგზავნა',
+      icon: 'success',
+      confirmButtonText: 'Cool'
+    });
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+      onSubmit: submit,
+      className: "container w-25 shadow p-3 mb-5 bg-body rounded mt-5",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+        children: "Reset Password"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        children: "enter your email"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+        className: "form-control",
+        type: "text",
+        value: data.email,
+        onChange: function onChange(e) {
+          return setData('email', e.target.value);
+        },
+        required: true,
+        placeholder: "Email"
+      }), error ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        className: "alert-danger",
+        children: "araswori meili"
+      }) : "", errors.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: errors.email
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        className: "btn btn-primary",
+        type: "submit",
+        disabled: processing,
+        children: "reset"
       })]
     })
   });
@@ -69569,10 +69732,14 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./ChangePass": "./resources/js/Pages/ChangePass.js",
+	"./ChangePass.js": "./resources/js/Pages/ChangePass.js",
 	"./Home": "./resources/js/Pages/Home.js",
 	"./Home.js": "./resources/js/Pages/Home.js",
 	"./Login": "./resources/js/Pages/Login.js",
 	"./Login.js": "./resources/js/Pages/Login.js",
+	"./Reset": "./resources/js/Pages/Reset.js",
+	"./Reset.js": "./resources/js/Pages/Reset.js",
 	"./UserPage": "./resources/js/Pages/UserPage.js",
 	"./UserPage.js": "./resources/js/Pages/UserPage.js"
 };
