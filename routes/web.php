@@ -26,3 +26,4 @@ Route::get('/reset', [Main::class, 'forgetPass']);
 Route::post('/resetsend', [Main::class, 'send']);
 Route::get('/changePass', [Main::class, 'resetpass'])->name('resetpass');
 Route::post('/resetpassword', [Main::class, 'resetpassword'])->name('resetpassword');
+Route::post('/address', [Main::class, 'address'])->name('address');

@@ -7833,7 +7833,8 @@ function UserPage(_ref) {
   var id = _ref.id,
       email = _ref.email,
       images = _ref.images,
-      links = _ref.links;
+      links = _ref.links,
+      address = _ref.address;
 
   var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.useForm)({
     avatar: null
@@ -7843,12 +7844,18 @@ function UserPage(_ref) {
       post = _useForm.post,
       progress = _useForm.progress;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('red'),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('false'),
       _useState2 = _slicedToArray(_useState, 2),
-      color = _useState2[0],
-      setColor = _useState2[1];
+      show = _useState2[0],
+      setShowDiv = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('red'),
+      _useState4 = _slicedToArray(_useState3, 2),
+      color = _useState4[0],
+      setColor = _useState4[1];
 
   var changeColor = function changeColor() {
+    setShowDiv(!show);
     setColor('red');
 
     if (color == 'red') {
@@ -7856,19 +7863,29 @@ function UserPage(_ref) {
     } else {
       setColor('red');
     }
-
-    console.log(color);
   };
 
   function submit(e) {
     e.preventDefault();
     post('/img');
+  } // address add
+
+
+  var _useForm2 = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.useForm)({
+    address: ""
+  }),
+      dataa = _useForm2.dataa,
+      setDataa = _useForm2.setDataa;
+
+  function submitAddress(e) {
+    e.preventDefault();
+    post('/address');
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h2", {
+    children: [show ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h2", {
       children: ["Page user id ", id, " User email ", email]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+    }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
       href: "/logout",
       className: "btn btn-danger",
       children: "LogOut"
@@ -7886,6 +7903,22 @@ function UserPage(_ref) {
         className: "btn btn-primary",
         children: "Submit"
       })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
+      children: "Add Address"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+      onSubmit: submitAddress,
+      className: "container w-25",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+        type: "text",
+        className: "form-control",
+        onChange: function onChange(e) {
+          return setData('address', e.target.value);
+        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "submit",
+        className: "btn btn-primary",
+        children: "Submit"
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
       type: "submit",
       className: "btn btn-primary",
@@ -7894,6 +7927,17 @@ function UserPage(_ref) {
       },
       onClick: changeColor,
       children: "click"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
+      children: "addresses"
+    }), address.map(function (e, i) {
+      return (
+        /*#__PURE__*/
+        // <React.Fragment>
+        (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+          children: e.address
+        }, i) // </React.Fragment>
+
+      );
     }), images.map(function (e, i) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "container",

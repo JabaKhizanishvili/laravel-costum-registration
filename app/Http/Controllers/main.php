@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Models\Costumuser;
 use App\Models\Img;
+use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
@@ -72,6 +73,7 @@ class main extends Controller
         $user = Costumuser::where('id', $id)->first();
         return Inertia::render('UserPage', [
             "images" => Costumuser::find($user_id)->getImg,
+            "address" => Costumuser::find($user_id)->getAddress,
             "links" => asset('storage/images'),
             "id" => $request->session()->get('loggedUser'),
             'email' => $user->email,
@@ -87,15 +89,17 @@ class main extends Controller
 
     public function img(Request $request, Img $img)
     {
-        $name = $request->file('avatar')->getClientOriginalName();
-        $size = $request->file('avatar')->getSize();
-        // dd($request->file('avatar'));
-        $request->file('avatar')->storeAs('public/images/', $name);
-        $img->create([
-            "name" => $name,
-            "size" => $size,
-            "user_id" => $request->session()->get('loggedUser'),
-        ]);
+        if ($request->avatar) {
+            $name = $request->file('avatar')->getClientOriginalName();
+            $size = $request->file('avatar')->getSize();
+            // dd($request->file('avatar'));
+            $request->file('avatar')->storeAs('public/images/', $name);
+            $img->create([
+                "name" => $name,
+                "size" => $size,
+                "user_id" => $request->session()->get('loggedUser'),
+            ]);
+        }
     }
     public function delImg(Request $request, Img $img)
     {
@@ -140,5 +144,16 @@ class main extends Controller
         $changed = $user->where('id', $request->id);
         $newPass = Hash::make($request->new_password);
         $changed->update(["password" => $newPass]);
+    }
+
+    public function address(Request $request, Address $address)
+    {
+        $saveData = Arr::except($request->except('avatar'), []);
+        //  "user_id" => $request->session()->get('loggedUser'),
+        // dd($saveData);
+        $address->create([
+            "address" => $request->address,
+            "user_id" => $request->session()->get('loggedUser'),
+        ]);
     }
 }

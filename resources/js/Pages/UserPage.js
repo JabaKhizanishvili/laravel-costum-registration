@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import { useForm } from '@inertiajs/inertia-react'
 
-export default function UserPage({ id, email, images, links }) {
+export default function UserPage({ id, email, images, links, address }) {
     const { data, setData, post, progress } = useForm({
         avatar: null,
     })
+    const [show, setShowDiv] = useState('false');
     const [color, setColor] = useState('red');
     const changeColor = () => {
+        setShowDiv(!show)
         setColor('red')
         if (color == 'red') {
             setColor('green')
         } else {
             setColor('red')
         }
-        console.log(color);
     }
 
     function submit(e) {
@@ -21,9 +22,20 @@ export default function UserPage({ id, email, images, links }) {
         post('/img')
     }
 
+    // address add
+    const { dataa, setDataa } = useForm({
+        address: "",
+    })
+    function submitAddress(e) {
+        e.preventDefault()
+        post('/address')
+    }
     return (
         <React.Fragment>
-            <h2>Page user id {id} User email {email}</h2>
+            {
+                show ? <h2>Page user id {id} User email {email}</h2> : ""
+            }
+
 
             <a href='/logout' className='btn btn-danger'>LogOut</a>
 
@@ -32,8 +44,26 @@ export default function UserPage({ id, email, images, links }) {
                 <button type="submit" className='btn btn-primary'>Submit</button>
             </form>
 
+            <h2>Add Address</h2>
+
+            <form onSubmit={submitAddress} className='container w-25'>
+                <input type="text" className='form-control' onChange={e => setData('address', e.target.value)} />
+                <button type="submit" className='btn btn-primary'>Submit</button>
+            </form>
+
+
             <button type="submit" className='btn btn-primary' style={{ backgroundColor: color }} onClick={changeColor} >click</button>
 
+            <h3>addresses</h3>
+            {
+                address.map((e, i) => {
+                    return (
+                        // <React.Fragment>
+                        <p key={i}>{e.address}</p>
+                        // </React.Fragment>
+                    )
+                })
+            }
             {
                 images.map((e, i) => {
                     return (

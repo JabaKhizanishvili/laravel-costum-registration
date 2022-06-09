@@ -17,4 +17,8 @@ class Costumuser extends Model
     {
         return $this->hasMany('App\Models\Img', 'user_id');
     }
+    public function getAddress()
+    {
+        return $this->hasMany('App\Models\Address', 'user_id');
+    }
 }
