@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from '@inertiajs/inertia-react'
 
-export default function UserPage({ id, email, images, links, address }) {
+export default function UserPage({ id, email, images, links, address, products, prodlinks }) {
     const { data, setData, post, progress } = useForm({
         avatar: null,
     })
@@ -30,6 +30,7 @@ export default function UserPage({ id, email, images, links, address }) {
         e.preventDefault()
         post('/address')
     }
+
     return (
         <React.Fragment>
             {
@@ -76,6 +77,24 @@ export default function UserPage({ id, email, images, links, address }) {
                     )
                 })
             }
+
+            <div className="shadow p-3 mb-5 bg-body rounded">
+                <h2>Products</h2>
+                {
+                    products.map((e, i) => {
+                        return (
+                            <div key={i} className="shadow p-3 mb-5 bg-body rounded">
+                                <img src={prodlinks + '/' + e.img} />
+                                <h5>Name</h5>
+                                <p>{e.name}</p>
+                                <h5>Price</h5>
+                                <p>{e.price}</p>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+
         </React.Fragment >
     )
 }
